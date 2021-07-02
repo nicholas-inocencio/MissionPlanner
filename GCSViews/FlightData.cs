@@ -1608,13 +1608,16 @@ namespace MissionPlanner.GCSViews
                         param3 = 0;
                     }
 
-
-
-                    var cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text.ToUpper());
-                    if (cmd == null)
+                    MAVLink.MAV_CMD cmd;
+                    try
+                    {
+                        cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD), CMB_action.Text.ToUpper());
+                    }
+                    catch (ArgumentException ex)
+                    {
                         cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD),
-                            "Do_Start_" + CMB_action.Text.ToUpper());
-                    
+                            "DO_START_" + CMB_action.Text.ToUpper());
+                    }
 
                     if (MainV2.comPort.doCommand(cmd, param1, param2, param3, 0, 0, 0, 0))
                     {
