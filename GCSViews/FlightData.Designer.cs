@@ -80,6 +80,16 @@
             this.Gheading = new MissionPlanner.Controls.HSI();
             this.Galt = new AGaugeApp.AGauge();
             this.Gspeed = new AGaugeApp.AGauge();
+            this.tabTransponder = new System.Windows.Forms.TabPage();
+            this.Squawk_nud = new System.Windows.Forms.NumericUpDown();
+            this.Squawk_label = new System.Windows.Forms.Label();
+            this.FlightID_label = new System.Windows.Forms.Label();
+            this.FlightID_tb = new System.Windows.Forms.TextBox();
+            this.IDENT_btn = new System.Windows.Forms.Button();
+            this.ALT_btn = new System.Windows.Forms.Button();
+            this.STBY_btn = new System.Windows.Forms.Button();
+            this.ON_btn = new System.Windows.Forms.Button();
+            this.Mode_clb = new System.Windows.Forms.CheckedListBox();
             this.tabStatus = new System.Windows.Forms.TabPage();
             this.tabServo = new System.Windows.Forms.TabPage();
             this.flowLayoutPanelServos = new System.Windows.Forms.FlowLayoutPanel();
@@ -214,6 +224,8 @@
             this.tabPagePreFlight.SuspendLayout();
             this.tabGauges.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceGaugesTab)).BeginInit();
+            this.tabTransponder.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Squawk_nud)).BeginInit();
             this.tabServo.SuspendLayout();
             this.flowLayoutPanelServos.SuspendLayout();
             this.tabScripts.SuspendLayout();
@@ -500,6 +512,7 @@
             this.tabControlactions.Controls.Add(this.tabActionsSimple);
             this.tabControlactions.Controls.Add(this.tabPagePreFlight);
             this.tabControlactions.Controls.Add(this.tabGauges);
+            this.tabControlactions.Controls.Add(this.tabTransponder);
             this.tabControlactions.Controls.Add(this.tabStatus);
             this.tabControlactions.Controls.Add(this.tabServo);
             this.tabControlactions.Controls.Add(this.tabScripts);
@@ -1488,6 +1501,86 @@
             this.Gspeed.Value3 = 0F;
             this.Gspeed.DoubleClick += new System.EventHandler(this.Gspeed_DoubleClick);
             // 
+            // tabTransponder
+            // 
+            this.tabTransponder.Controls.Add(this.Squawk_nud);
+            this.tabTransponder.Controls.Add(this.Squawk_label);
+            this.tabTransponder.Controls.Add(this.FlightID_label);
+            this.tabTransponder.Controls.Add(this.FlightID_tb);
+            this.tabTransponder.Controls.Add(this.IDENT_btn);
+            this.tabTransponder.Controls.Add(this.ALT_btn);
+            this.tabTransponder.Controls.Add(this.STBY_btn);
+            this.tabTransponder.Controls.Add(this.ON_btn);
+            this.tabTransponder.Controls.Add(this.Mode_clb);
+            resources.ApplyResources(this.tabTransponder, "tabTransponder");
+            this.tabTransponder.Name = "tabTransponder";
+            this.tabTransponder.UseVisualStyleBackColor = true;
+            // 
+            // Squawk_nud
+            // 
+            resources.ApplyResources(this.Squawk_nud, "Squawk_nud");
+            this.Squawk_nud.Maximum = new decimal(new int[] {
+            7777,
+            0,
+            0,
+            0});
+            this.Squawk_nud.Name = "Squawk_nud";
+            this.Squawk_nud.ValueChanged += new System.EventHandler(this.Squawk_nud_ValueChanged);
+            // 
+            // Squawk_label
+            // 
+            resources.ApplyResources(this.Squawk_label, "Squawk_label");
+            this.Squawk_label.Name = "Squawk_label";
+            // 
+            // FlightID_label
+            // 
+            resources.ApplyResources(this.FlightID_label, "FlightID_label");
+            this.FlightID_label.Name = "FlightID_label";
+            // 
+            // FlightID_tb
+            // 
+            this.FlightID_tb.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            resources.ApplyResources(this.FlightID_tb, "FlightID_tb");
+            this.FlightID_tb.Name = "FlightID_tb";
+            this.FlightID_tb.TextChanged += new System.EventHandler(this.FlightID_tb_TextChanged);
+            // 
+            // IDENT_btn
+            // 
+            resources.ApplyResources(this.IDENT_btn, "IDENT_btn");
+            this.IDENT_btn.Name = "IDENT_btn";
+            this.IDENT_btn.UseVisualStyleBackColor = true;
+            this.IDENT_btn.Click += new System.EventHandler(this.IDENT_btn_Click);
+            // 
+            // ALT_btn
+            // 
+            resources.ApplyResources(this.ALT_btn, "ALT_btn");
+            this.ALT_btn.Name = "ALT_btn";
+            this.ALT_btn.UseVisualStyleBackColor = true;
+            // 
+            // STBY_btn
+            // 
+            resources.ApplyResources(this.STBY_btn, "STBY_btn");
+            this.STBY_btn.Name = "STBY_btn";
+            this.STBY_btn.UseVisualStyleBackColor = true;
+            // 
+            // ON_btn
+            // 
+            resources.ApplyResources(this.ON_btn, "ON_btn");
+            this.ON_btn.Name = "ON_btn";
+            this.ON_btn.UseVisualStyleBackColor = true;
+            // 
+            // Mode_clb
+            // 
+            this.Mode_clb.CheckOnClick = true;
+            resources.ApplyResources(this.Mode_clb, "Mode_clb");
+            this.Mode_clb.FormattingEnabled = true;
+            this.Mode_clb.Items.AddRange(new object[] {
+            resources.GetString("Mode_clb.Items"),
+            resources.GetString("Mode_clb.Items1"),
+            resources.GetString("Mode_clb.Items2"),
+            resources.GetString("Mode_clb.Items3")});
+            this.Mode_clb.Name = "Mode_clb";
+            // 
             // tabStatus
             // 
             resources.ApplyResources(this.tabStatus, "tabStatus");
@@ -2469,6 +2562,9 @@
             this.tabPagePreFlight.ResumeLayout(false);
             this.tabGauges.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceGaugesTab)).EndInit();
+            this.tabTransponder.ResumeLayout(false);
+            this.tabTransponder.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.Squawk_nud)).EndInit();
             this.tabServo.ResumeLayout(false);
             this.flowLayoutPanelServos.ResumeLayout(false);
             this.tabScripts.ResumeLayout(false);
@@ -2696,5 +2792,15 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
         private System.Windows.Forms.ToolStripMenuItem setBatteryCellCountToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem undockToolStripMenuItem;
+        private System.Windows.Forms.Button ALT_btn;
+        private System.Windows.Forms.Button STBY_btn;
+        private System.Windows.Forms.Button ON_btn;
+        private System.Windows.Forms.CheckedListBox Mode_clb;
+        private System.Windows.Forms.NumericUpDown Squawk_nud;
+        private System.Windows.Forms.Label Squawk_label;
+        private System.Windows.Forms.Label FlightID_label;
+        private System.Windows.Forms.TextBox FlightID_tb;
+        private System.Windows.Forms.Button IDENT_btn;
+        public System.Windows.Forms.TabPage tabTransponder;
     }
 }
