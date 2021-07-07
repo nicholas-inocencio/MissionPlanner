@@ -6388,7 +6388,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             // generatePacket(MAVLINK_MSG_ID.UAVIONIX_ADSB_OUT_CFG_FLIGHTID, dyn);
         }
 
-        public void uAvionixADSBControl(uint8_t state, int32_t baroAltMSL, uint16_t squawk, uint8_t emergencyStatus, char[] flight_id, uint8_t x_bit)
+        public void uAvionixADSBControl(int baroAltMSL,ushort squawk,/*UAVIONIX_ADSB_OUT_CONTROL_STATE*/byte state,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/byte emergencyStatus,byte[] flight_id,byte x_bit) 
         {
             mavlink_uavionix_adsb_out_control_t ctrl = new mavlink_uavionix_adsb_out_control_t();
             ctrl.state = state;
