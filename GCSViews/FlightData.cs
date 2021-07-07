@@ -5285,5 +5285,45 @@ namespace MissionPlanner.GCSViews
             tabQuickDetached = false;
             contextMenuStripQuickView.Items["undockToolStripMenuItem"].Visible = true;
         }
+
+        private void IDENT_btn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ((Control) sender).Enabled = false;
+
+                int param1 = 0;
+                int param2 = 0;
+                int param3 = 1;
+
+                var cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD),
+                            "DO_START_ADSB_OUT_IDENT");
+
+                if (MainV2.comPort.doCommand(cmd, param1, param2, param3, 0, 0, 0, 0))
+                {
+
+                }
+                else
+                {
+                    CustomMessageBox.Show(Strings.CommandFailed + " " + cmd, Strings.ERROR);
+                }
+            }
+            catch
+            {
+                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
+            }
+
+            ((Control) sender).Enabled = true;
+        }
+
+        private void FlightID_tb_TextChanged(object sender, EventArgs e)
+        {
+            MainV2.comPort.uAvionixFlightID(((TextBox) sender).Text);
+        }
+
+        private void Squawk_nud_ValueChanged(object sender, EventArgs e)
+        {
+            MainV2.comPort.uAvionixSquawk(((NumericUpDown) sender).Value);
+        }
     }
 }
