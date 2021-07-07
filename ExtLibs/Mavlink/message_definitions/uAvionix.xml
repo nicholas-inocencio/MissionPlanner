@@ -93,6 +93,20 @@
         <param index="7">Empty</param>
       </entry>
     </enum>
+    <enum name="UAVIONIX_ADSB_OUT_CONTROL_STATE">
+      <description>State flags for ADS-B transponder dynamic report</description>
+      <entry value="1" name="UAVIONIX_ADSB_OUT_CONTROL_STATE_EXTERNAL_BARO_CROSSCHECKED"/>
+      <entry value="4" name="UAVIONIX_ADSB_OUT_CONTROL_STATE_ON_GROUND"/>
+      <entry value="8" name="UAVIONIX_ADSB_OUT_CONTROL_STATE_IDENT_BUTTON_ACTIVE"/>
+      <entry value="16" name="UAVIONIX_ADSB_OUT_CONTROL_STATE_MODE_A_ENABLED"/>
+      <entry value="32" name="UAVIONIX_ADSB_OUT_CONTROL_STATE_MODE_C_ENABLED"/>
+      <entry value="64" name="UAVIONIX_ADSB_OUT_CONTROL_STATE_MODE_S_ENABLED"/>
+      <entry value="128" name="UAVIONIX_ADSB_OUT_CONTROL_STATE_1090ES_TX_ENABLED"/>
+    </enum>
+    <enum name="UAVIONIX_ADSB_XBIT">
+      <description>State flags for X-Bit and reserved fields.</description>
+      <entry value="128" name="UAVIONIX_ADSB_XBIT_ENABLED"/>
+    </enum>
   </enums>
   <messages>
     <message id="10001" name="UAVIONIX_ADSB_OUT_CFG">
@@ -140,6 +154,15 @@
     <message id="10006" name="UAVIONIX_ADSB_GET">
       <description>Request messages.</description>
       <field type="uint32_t" name="ReqMessageId">Message ID to request. Supports any message in this 10000-10099 range</field>
+    </message>
+    <message id="10007" name="UAVIONIX_ADSB_OUT_CONTROL">
+      <description>Control message with all data sent in UCP control message.</description>
+      <field type="uint8_t" name="state" enum="UAVIONIX_ADSB_OUT_CONTROL_STATE" display="bitmask">ADS-B transponder control state flags</field>
+      <field type="int32_t" name="baroAltMSL" units="mbar">Barometric pressure altitude (MSL) relative to a standard atmosphere of 1013.2 mBar and NOT bar corrected altitude (m * 1E-3). (up +ve). If unknown set to INT32_MAX</field>
+      <field type="uint16_t" name="squawk">Mode A code (typically 1200 [0x04B0] for VFR)</field>
+      <field type="uint8_t" name="emergencyStatus" enum="UAVIONIX_ADSB_EMERGENCY_STATUS">Emergency status</field>
+      <field type="char[8]" name="flight_id">Flight Identification: 8 ASCII characters, '0' through '9', 'A' through 'Z' or space. Spaces (0x20) used as a trailing pad character, or when call sign is unavailable.</field>
+      <field type="uint8_t" name="x_bit">X-Bit enable (military transponders only)</field>
     </message>
   </messages>
 </mavlink>
