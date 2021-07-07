@@ -259,6 +259,7 @@ public partial class MAVLink
         new message_info(10004, "UAVIONIX_ADSB_OUT_CFG_REGISTRATION", 133, 9, 9, typeof( mavlink_uavionix_adsb_out_cfg_registration_t )),
         new message_info(10005, "UAVIONIX_ADSB_OUT_CFG_FLIGHTID", 103, 9, 9, typeof( mavlink_uavionix_adsb_out_cfg_flightid_t )),
         new message_info(10006, "UAVIONIX_ADSB_GET", 193, 4, 4, typeof( mavlink_uavionix_adsb_get_t )),
+        new message_info(10007, "UAVIONIX_ADSB_OUT_CONTROL", 71, 17, 17, typeof( mavlink_uavionix_adsb_out_control_t )),
         new message_info(11000, "DEVICE_OP_READ", 134, 51, 52, typeof( mavlink_device_op_read_t )),
         new message_info(11001, "DEVICE_OP_READ_REPLY", 15, 135, 136, typeof( mavlink_device_op_read_reply_t )),
         new message_info(11002, "DEVICE_OP_WRITE", 234, 179, 180, typeof( mavlink_device_op_write_t )),
@@ -538,6 +539,7 @@ public partial class MAVLink
         UAVIONIX_ADSB_OUT_CFG_REGISTRATION = 10004,
         UAVIONIX_ADSB_OUT_CFG_FLIGHTID = 10005,
         UAVIONIX_ADSB_GET = 10006,
+        UAVIONIX_ADSB_OUT_CONTROL = 10007,
         DEVICE_OP_READ = 11000,
         DEVICE_OP_READ_REPLY = 11001,
         DEVICE_OP_WRITE = 11002,
@@ -1144,6 +1146,42 @@ public partial class MAVLink
         
     };
     
+    ///<summary> State flags for ADS-B transponder dynamic report </summary>
+    public enum UAVIONIX_ADSB_OUT_CONTROL_STATE: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        EXTERNAL_BARO_CROSSCHECKED=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        ON_GROUND=4, 
+        ///<summary>  | </summary>
+        [Description("")]
+        IDENT_BUTTON_ACTIVE=8, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MODE_A_ENABLED=16, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MODE_C_ENABLED=32, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MODE_S_ENABLED=64, 
+        ///<summary>  | </summary>
+        [Description("")]
+        _1090ES_TX_ENABLED=128, 
+        
+    };
+    
+    ///<summary> State flags for X-Bit and reserved fields. </summary>
+    public enum UAVIONIX_ADSB_XBIT: int /*default*/
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        ENABLED=128, 
+        
+    };
+
     ///<summary>  </summary>
     public enum SCRIPTING_CMD: int /*default*/
     {
@@ -17891,6 +17929,48 @@ public partial class MAVLink
     
     };
 
+    /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=17)]
+    ///<summary> Control message with all data sent in UCP control message. </summary>
+    public struct mavlink_uavionix_adsb_out_control_t
+    {
+        public mavlink_uavionix_adsb_out_control_t(int baroAltMSL,ushort squawk,/*UAVIONIX_ADSB_OUT_CONTROL_STATE*/byte state,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/byte emergencyStatus,byte[] flight_id,byte x_bit) 
+        {
+              this.baroAltMSL = baroAltMSL;
+              this.squawk = squawk;
+              this.state = state;
+              this.emergencyStatus = emergencyStatus;
+              this.flight_id = flight_id;
+              this.x_bit = x_bit;
+            
+        }
+        /// <summary>Barometric pressure altitude (MSL) relative to a standard atmosphere of 1013.2 mBar and NOT bar corrected altitude (m * 1E-3). (up +ve). If unknown set to INT32_MAX  [mbar] </summary>
+        [Units("[mbar]")]
+        [Description("Barometric pressure altitude (MSL) relative to a standard atmosphere of 1013.2 mBar and NOT bar corrected altitude (m * 1E-3). (up +ve). If unknown set to INT32_MAX")]
+        public  int baroAltMSL;
+            /// <summary>Mode A code (typically 1200 [0x04B0] for VFR)   </summary>
+        [Units("")]
+        [Description("Mode A code (typically 1200 [0x04B0] for VFR)")]
+        public  ushort squawk;
+            /// <summary>ADS-B transponder control state flags UAVIONIX_ADSB_OUT_CONTROL_STATE  bitmask</summary>
+        [Units("")]
+        [Description("ADS-B transponder control state flags")]
+        public  /*UAVIONIX_ADSB_OUT_CONTROL_STATE*/byte state;
+            /// <summary>Emergency status UAVIONIX_ADSB_EMERGENCY_STATUS  </summary>
+        [Units("")]
+        [Description("Emergency status")]
+        public  /*UAVIONIX_ADSB_EMERGENCY_STATUS*/byte emergencyStatus;
+            /// <summary>Flight Identification: 8 ASCII characters, '0' through '9', 'A' through 'Z' or space. Spaces (0x20) used as a trailing pad character, or when call sign is unavailable.   </summary>
+        [Units("")]
+        [Description("Flight Identification: 8 ASCII characters, '0' through '9', 'A' through 'Z' or space. Spaces (0x20) used as a trailing pad character, or when call sign is unavailable.")]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
+		public byte[] flight_id;
+            /// <summary>X-Bit enable (military transponders only)   </summary>
+        [Units("")]
+        [Description("X-Bit enable (military transponders only)")]
+        public  byte x_bit;
+    
+    };
     
     /// extensions_start 0
     [StructLayout(LayoutKind.Sequential,Pack=1,Size=1)]
