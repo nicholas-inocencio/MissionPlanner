@@ -5288,42 +5288,153 @@ namespace MissionPlanner.GCSViews
 
         private void IDENT_btn_Click(object sender, EventArgs e)
         {
-            try
-            {
-                ((Control) sender).Enabled = false;
 
-                int param1 = 0;
-                int param2 = 0;
-                int param3 = 1;
-
-                var cmd = (MAVLink.MAV_CMD) Enum.Parse(typeof(MAVLink.MAV_CMD),
-                            "DO_START_ADSB_OUT_IDENT");
-
-                if (MainV2.comPort.doCommand(cmd, param1, param2, param3, 0, 0, 0, 0))
-                {
-
-                }
-                else
-                {
-                    CustomMessageBox.Show(Strings.CommandFailed + " " + cmd, Strings.ERROR);
-                }
-            }
-            catch
-            {
-                CustomMessageBox.Show(Strings.CommandFailed, Strings.ERROR);
-            }
-
-            ((Control) sender).Enabled = true;
+            MainV2.comPort.uAvionixADSBControl(int.MaxValue,
+                                               (ushort)Squawk_nud.Value,
+                                               /*UAVIONIX_ADSB_OUT_CONTROL_STATE*/(byte)(
+                                                   8 |
+                                                   (Mode_clb.GetItemChecked(0) ? 16 : 0) |
+                                                   (Mode_clb.GetItemChecked(1) ? 32 : 0) |
+                                                   (Mode_clb.GetItemChecked(2) ? 64 : 0) |
+                                                   (Mode_clb.GetItemChecked(3) ? 128 : 0)
+                                                ),
+                                               0,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/
+                                               Encoding.ASCII.GetBytes(FlightID_tb.Text),
+                                               0);
         }
 
         private void FlightID_tb_TextChanged(object sender, EventArgs e)
         {
-            MainV2.comPort.uAvionixFlightID(((TextBox) sender).Text);
+            MainV2.comPort.uAvionixADSBControl(int.MaxValue,
+                                               (ushort)Squawk_nud.Value,
+                                               /*UAVIONIX_ADSB_OUT_CONTROL_STATE*/(byte)(
+                                                   (Mode_clb.GetItemChecked(0) ? 16 : 0) |
+                                                   (Mode_clb.GetItemChecked(1) ? 32 : 0) |
+                                                   (Mode_clb.GetItemChecked(2) ? 64 : 0) |
+                                                   (Mode_clb.GetItemChecked(3) ? 128 : 0)
+                                               ),
+                                               0,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/
+                                               Encoding.ASCII.GetBytes(FlightID_tb.Text),
+                                               0);
         }
 
         private void Squawk_nud_ValueChanged(object sender, EventArgs e)
         {
-            MainV2.comPort.uAvionixSquawk(((NumericUpDown) sender).Value);
+            UInt16 ones = (UInt16)(Squawk_nud.Value % 10);
+            UInt16 tens = (UInt16)((Squawk_nud.Value / 10) % 10);
+            UInt16 hundreds = (UInt16)((Squawk_nud.Value / 100) % 10);
+            UInt16 thousands = (UInt16)((Squawk_nud.Value / 1000) % 10);
+
+            if (ones == 9)
+                ones = 7;
+            if (tens == 9)
+                tens = 7;
+            if (hundreds == 9)
+                hundreds = 7;
+            if (thousands == 9)
+                thousands = 7;
+
+            if (ones > 7)
+            {
+                tens++;
+                ones = 0;
+            }
+            if (tens > 7)
+            {
+                hundreds++;
+                tens = 0;
+            }
+            if (hundreds > 7)
+            {
+                hundreds = 0;
+                thousands++;
+            }
+            if (thousands > 7)
+            {
+                thousands = 7;
+            }
+
+            Squawk_nud.ValueChanged -= new EventHandler(Squawk_nud_ValueChanged);
+            Squawk_nud.Value = ((thousands * 1000) + (hundreds * 100) + (tens * 10) + ones);
+            Squawk_nud.ValueChanged += new EventHandler(Squawk_nud_ValueChanged);
+
+            MainV2.comPort.uAvionixADSBControl(int.MaxValue,
+                                               (ushort)Squawk_nud.Value,
+                                               /*UAVIONIX_ADSB_OUT_CONTROL_STATE*/(byte)(
+                                                   (Mode_clb.GetItemChecked(0) ? 16 : 0) |
+                                                   (Mode_clb.GetItemChecked(1) ? 32 : 0) |
+                                                   (Mode_clb.GetItemChecked(2) ? 64 : 0) |
+                                                   (Mode_clb.GetItemChecked(3) ? 128 : 0)
+                                               ),
+                                               0,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/
+                                               Encoding.ASCII.GetBytes(FlightID_tb.Text),
+                                               0);
+        }
+
+        private void STBY_btn_Click(object sender, EventArgs e)
+        {
+            Mode_clb.SetItemChecked(0, false);
+            Mode_clb.SetItemChecked(1, false);
+            Mode_clb.SetItemChecked(2, false);
+            Mode_clb.SetItemChecked(3, false);
+            MainV2.comPort.uAvionixADSBControl(int.MaxValue,
+                                               (ushort)Squawk_nud.Value,
+                                               /*UAVIONIX_ADSB_OUT_CONTROL_STATE*/(byte)(
+                                                   (Mode_clb.GetItemChecked(0) ? 16 : 0) |
+                                                   (Mode_clb.GetItemChecked(1) ? 32 : 0) |
+                                                   (Mode_clb.GetItemChecked(2) ? 64 : 0) |
+                                                   (Mode_clb.GetItemChecked(3) ? 128 : 0)
+                                               ),
+                                               0,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/
+                                               Encoding.ASCII.GetBytes(FlightID_tb.Text),
+                                               0);
+        }
+
+        private void ON_btn_Click(object sender, EventArgs e)
+        {
+            Mode_clb.SetItemChecked(0, true);
+            Mode_clb.SetItemChecked(1, false);
+            Mode_clb.SetItemChecked(2, true);
+            Mode_clb.SetItemChecked(3, true);
+            MainV2.comPort.uAvionixADSBControl(int.MaxValue,
+                                               (ushort)Squawk_nud.Value,
+                                               /*UAVIONIX_ADSB_OUT_CONTROL_STATE*/(byte)(
+                                                   (Mode_clb.GetItemChecked(0) ? 16 : 0) |
+                                                   (Mode_clb.GetItemChecked(1) ? 32 : 0) |
+                                                   (Mode_clb.GetItemChecked(2) ? 64 : 0) |
+                                                   (Mode_clb.GetItemChecked(3) ? 128 : 0)
+                                               ),
+                                               0,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/
+                                               Encoding.ASCII.GetBytes(FlightID_tb.Text),
+                                               0);
+        }
+
+        private void ALT_btn_Click(object sender, EventArgs e)
+        {
+            Mode_clb.SetItemChecked(0, true);
+            Mode_clb.SetItemChecked(1, true);
+            Mode_clb.SetItemChecked(2, true);
+            Mode_clb.SetItemChecked(3, true);
+            MainV2.comPort.uAvionixADSBControl(int.MaxValue,
+                                               (ushort)Squawk_nud.Value,
+                                               /*UAVIONIX_ADSB_OUT_CONTROL_STATE*/(byte)(
+                                                   (Mode_clb.GetItemChecked(0) ? 16 : 0) |
+                                                   (Mode_clb.GetItemChecked(1) ? 32 : 0) |
+                                                   (Mode_clb.GetItemChecked(2) ? 64 : 0) |
+                                                   (Mode_clb.GetItemChecked(3) ? 128 : 0)
+                                               ),
+                                               0,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/
+                                               Encoding.ASCII.GetBytes(FlightID_tb.Text),
+                                               0);
+        }
+
+
+        private void Squawk_nud_MouseWheel(object sender, MouseEventArgs e)
+        {
+            NumericUpDown control = (NumericUpDown)sender;
+            ((HandledMouseEventArgs)e).Handled = true;
+            decimal value = control.Value + ((e.Delta > 0) ? control.Increment : -control.Increment);
+            control.Value = Math.Max(control.Minimum, Math.Min(value, control.Maximum));
         }
     }
 }

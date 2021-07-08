@@ -6360,34 +6360,6 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             logplaybackfile = null;
         }
 
-        public void uAvionixFlightID(string flightID)
-        {
-            mavlink_uavionix_adsb_out_cfg_flightid_t fid = new mavlink_uavionix_adsb_out_cfg_flightid_t(Encoding.ASCII.GetBytes(flightID));
-            generatePacket(MAVLINK_MSG_ID.UAVIONIX_ADSB_OUT_CFG_FLIGHTID, fid);
-        }
-
-        public void uAvionixSquawk(Decimal squawk)
-        {
-            // mavlink_uavionix_adsb_out_dynamic_t dyn = new mavlink_uavionix_adsb_out_dynamic_t();
-            // dyn.utcTime = UINT32_MAX;
-            // dyn.gpsLat = INT32_MAX;
-            // dyn.gpsLon = INT32_MAX;
-            // dyn.gpsAlt = INT32_MAX;
-            // dyn.baroAltMSL = INT32_MAX;
-            // dyn.accuracyHor = UINT32_MAX;
-            // dyn.accuracyVert = UINT16_MAX;
-            // dyn.accuracyVel = UINT16_MAX;
-            // dyn.velVert = INT16_MAX;
-            // dyn.velNS = INT16_MAX;
-            // dyn.VelEW = INT16_MAX;
-            // dyn.state = state;
-            // dyn.squawk = squawk;
-            // dyn.gpsFix = gpsFix;
-            // dyn.numSats = numSats;
-            // dyn.emergencyStatus = emergencyStatus;
-            // generatePacket(MAVLINK_MSG_ID.UAVIONIX_ADSB_OUT_CFG_FLIGHTID, dyn);
-        }
-
         public void uAvionixADSBControl(int baroAltMSL,ushort squawk,/*UAVIONIX_ADSB_OUT_CONTROL_STATE*/byte state,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/byte emergencyStatus,byte[] flight_id,byte x_bit) 
         {
             mavlink_uavionix_adsb_out_control_t ctrl = new mavlink_uavionix_adsb_out_control_t();

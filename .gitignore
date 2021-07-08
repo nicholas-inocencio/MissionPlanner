@@ -38,3 +38,5 @@ docs/
 *.cache
 /Plugins/Dowding/server/node_modules
 /Plugins/Dowding/server/package-lock.json
+.vscode/launch.json
+.vscode/tasks.json

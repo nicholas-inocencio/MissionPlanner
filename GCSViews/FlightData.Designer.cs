@@ -1525,7 +1525,13 @@
             0,
             0});
             this.Squawk_nud.Name = "Squawk_nud";
+            this.Squawk_nud.Value = new decimal(new int[] {
+            1200,
+            0,
+            0,
+            0});
             this.Squawk_nud.ValueChanged += new System.EventHandler(this.Squawk_nud_ValueChanged);
+            this.Squawk_nud.MouseWheel += new System.Windows.Forms.MouseEventHandler(this.Squawk_nud_MouseWheel);
             // 
             // Squawk_label
             // 
@@ -1556,18 +1562,21 @@
             resources.ApplyResources(this.ALT_btn, "ALT_btn");
             this.ALT_btn.Name = "ALT_btn";
             this.ALT_btn.UseVisualStyleBackColor = true;
+            this.ALT_btn.Click += new System.EventHandler(this.ALT_btn_Click);
             // 
             // STBY_btn
             // 
             resources.ApplyResources(this.STBY_btn, "STBY_btn");
             this.STBY_btn.Name = "STBY_btn";
             this.STBY_btn.UseVisualStyleBackColor = true;
+            this.STBY_btn.Click += new System.EventHandler(this.STBY_btn_Click);
             // 
             // ON_btn
             // 
             resources.ApplyResources(this.ON_btn, "ON_btn");
             this.ON_btn.Name = "ON_btn";
             this.ON_btn.UseVisualStyleBackColor = true;
+            this.ON_btn.Click += new System.EventHandler(this.ON_btn_Click);
             // 
             // Mode_clb
             // 
@@ -2327,7 +2336,7 @@
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 360D;
+            this.windDir1.Direction = 180D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
