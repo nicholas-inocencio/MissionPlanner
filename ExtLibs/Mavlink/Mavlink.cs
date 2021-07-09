@@ -260,6 +260,7 @@ public partial class MAVLink
         new message_info(10005, "UAVIONIX_ADSB_OUT_CFG_FLIGHTID", 103, 9, 9, typeof( mavlink_uavionix_adsb_out_cfg_flightid_t )),
         new message_info(10006, "UAVIONIX_ADSB_GET", 193, 4, 4, typeof( mavlink_uavionix_adsb_get_t )),
         new message_info(10007, "UAVIONIX_ADSB_OUT_CONTROL", 71, 17, 17, typeof( mavlink_uavionix_adsb_out_control_t )),
+        new message_info(10008, "UAVIONIX_ADSB_OUT_STATUS", 53, 6, 6, typeof( mavlink_uavionix_adsb_out_status_t )),
         new message_info(11000, "DEVICE_OP_READ", 134, 51, 52, typeof( mavlink_device_op_read_t )),
         new message_info(11001, "DEVICE_OP_READ_REPLY", 15, 135, 136, typeof( mavlink_device_op_read_reply_t )),
         new message_info(11002, "DEVICE_OP_WRITE", 234, 179, 180, typeof( mavlink_device_op_write_t )),
@@ -540,6 +541,7 @@ public partial class MAVLink
         UAVIONIX_ADSB_OUT_CFG_FLIGHTID = 10005,
         UAVIONIX_ADSB_GET = 10006,
         UAVIONIX_ADSB_OUT_CONTROL = 10007,
+        UAVIONIX_ADSB_OUT_STATUS = 10008,
         DEVICE_OP_READ = 11000,
         DEVICE_OP_READ_REPLY = 11001,
         DEVICE_OP_WRITE = 11002,
@@ -1174,11 +1176,134 @@ public partial class MAVLink
     };
     
     ///<summary> State flags for X-Bit and reserved fields. </summary>
-    public enum UAVIONIX_ADSB_XBIT: int /*default*/
+    public enum UAVIONIX_ADSB_XBIT: byte
     {
         ///<summary>  | </summary>
         [Description("")]
         ENABLED=128, 
+        
+    };
+
+    ///<summary> State flags for ADS-B transponder status report </summary>
+    public enum UAVIONIX_ADSB_OUT_STATUS_STATE: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        ON_GROUND=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        INTERROGATED_SINCE_LAST=2, 
+        ///<summary>  | </summary>
+        [Description("")]
+        XBIT_ENABLED=4, 
+        ///<summary>  | </summary>
+        [Description("")]
+        IDENT_ACTIVE=8, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MODE_A_ENABLED=16, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MODE_C_ENABLED=32, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MODE_S_ENABLED=64, 
+        ///<summary>  | </summary>
+        [Description("")]
+        _1090ES_TX_ENABLED=128, 
+        
+    };
+    
+    ///<summary> State flags for ADS-B transponder status report </summary>
+    public enum UAVIONIX_ADSB_OUT_STATUS_NIC_NACP: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_20_NM=1, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_8_NM=2, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_4_NM=3, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_2_NM=4, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_1_NM=5, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_0_3_NM=6, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_0_2_NM=7, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_0_1_NM=8, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_75_M=9, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_25_M=10, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NIC_CR_7_5_M=11, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_10_NM=16, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_4_NM=32, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_2_NM=48, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_1_NM=64, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_0_5_NM=80, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_0_3_NM=96, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_0_1_NM=112, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_0_05_NM=128, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_30_M=144, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_10_M=160, 
+        ///<summary>  | </summary>
+        [Description("")]
+        UAVIONIX_ADSB_NACP_EPU_3_M=176, 
+        
+    };
+    
+    ///<summary> State flags for ADS-B transponder fault report </summary>
+    public enum UAVIONIX_ADSB_OUT_STATUS_FAULT: byte
+    {
+        ///<summary>  | </summary>
+        [Description("")]
+        STATUS_MESSAGE_UNAVAIL=8, 
+        ///<summary>  | </summary>
+        [Description("")]
+        GPS_NO_POS=16, 
+        ///<summary>  | </summary>
+        [Description("")]
+        GPS_UNAVAIL=32, 
+        ///<summary>  | </summary>
+        [Description("")]
+        TX_SYSTEM_FAIL=64, 
+        ///<summary>  | </summary>
+        [Description("")]
+        MAINT_REQ=128, 
         
     };
 
@@ -17934,7 +18059,7 @@ public partial class MAVLink
     ///<summary> Control message with all data sent in UCP control message. </summary>
     public struct mavlink_uavionix_adsb_out_control_t
     {
-        public mavlink_uavionix_adsb_out_control_t(int baroAltMSL,ushort squawk,/*UAVIONIX_ADSB_OUT_CONTROL_STATE*/byte state,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/byte emergencyStatus,byte[] flight_id,byte x_bit) 
+        public mavlink_uavionix_adsb_out_control_t(int baroAltMSL,ushort squawk,/*UAVIONIX_ADSB_OUT_CONTROL_STATE*/byte state,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/byte emergencyStatus,byte[] flight_id,/*UAVIONIX_ADSB_XBIT*/byte x_bit) 
         {
               this.baroAltMSL = baroAltMSL;
               this.squawk = squawk;
@@ -17965,11 +18090,48 @@ public partial class MAVLink
         [Description("Flight Identification: 8 ASCII characters, '0' through '9', 'A' through 'Z' or space. Spaces (0x20) used as a trailing pad character, or when call sign is unavailable.")]
         [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
 		public byte[] flight_id;
-            /// <summary>X-Bit enable (military transponders only)   </summary>
+            /// <summary>X-Bit enable (military transponders only) UAVIONIX_ADSB_XBIT bitmask</summary>
         [Units("")]
         [Description("X-Bit enable (military transponders only)")]
-        public  byte x_bit;
+        public  /*UAVIONIX_ADSB_XBIT*/byte x_bit;
     
+    };
+
+        /// extensions_start 0
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=6)]
+    ///<summary> Status message with information from UCP Heartbeat and Status messages. </summary>
+    public struct mavlink_uavionix_adsb_out_status_t
+    {
+        public mavlink_uavionix_adsb_out_status_t(ushort squawk,/*UAVIONIX_ADSB_OUT_STATUS_STATE*/byte state,/*UAVIONIX_ADSB_OUT_STATUS_NIC_NACP*/byte NIC_NACp,byte boardTemp,/*UAVIONIX_ADSB_OUT_STATUS_FAULT*/byte fault) 
+        {
+              this.squawk = squawk;
+              this.state = state;
+              this.NIC_NACp = NIC_NACp;
+              this.boardTemp = boardTemp;
+              this.fault = fault;
+            
+        }
+        /// <summary>Mode A code (typically 1200 [0x04B0] for VFR)   </summary>
+        [Units("")]
+        [Description("Mode A code (typically 1200 [0x04B0] for VFR)")]
+        public  ushort squawk;
+            /// <summary>ADS-B transponder status state flags UAVIONIX_ADSB_OUT_STATUS_STATE  bitmask</summary>
+        [Units("")]
+        [Description("ADS-B transponder status state flags")]
+        public  /*UAVIONIX_ADSB_OUT_STATUS_STATE*/byte state;
+            /// <summary>Integrity and Accuracy of traffic reported as a 4-bit value for each field (NACp 7:4, NIC 3:0) and encoded by Containment Radius (HPL) and Estimated Position Uncertainty (HFOM), respectively UAVIONIX_ADSB_OUT_STATUS_NIC_NACP  </summary>
+        [Units("")]
+        [Description("Integrity and Accuracy of traffic reported as a 4-bit value for each field (NACp 7:4, NIC 3:0) and encoded by Containment Radius (HPL) and Estimated Position Uncertainty (HFOM), respectively")]
+        public  /*UAVIONIX_ADSB_OUT_STATUS_NIC_NACP*/byte NIC_NACp;
+            /// <summary>Board temperature in C   </summary>
+        [Units("")]
+        [Description("Board temperature in C")]
+        public  byte boardTemp;
+            /// <summary>ADS-B transponder fault flags UAVIONIX_ADSB_OUT_STATUS_FAULT  bitmask</summary>
+        [Units("")]
+        [Description("ADS-B transponder fault flags")]
+        public  /*UAVIONIX_ADSB_OUT_STATUS_FAULT*/byte fault;
+
     };
     
     /// extensions_start 0
