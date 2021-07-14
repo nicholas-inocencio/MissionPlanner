@@ -5467,10 +5467,15 @@ namespace MissionPlanner.GCSViews
                         fault_clb.SetItemChecked(3, MainV2.comPort.MAV.cs.adsb_tx_sys_fail);
                         fault_clb.SetItemChecked(4, MainV2.comPort.MAV.cs.airborne_status);
 
+                        FlightID_tb.TextChanged -= new EventHandler(FlightID_tb_TextChanged);
                         FlightID_tb.Text = System.Text.Encoding.UTF8.GetString(MainV2.comPort.MAV.cs.flight_id);
+                        FlightID_tb.TextChanged += new EventHandler(FlightID_tb_TextChanged);
                         Squawk_nud.ValueChanged -= new EventHandler(Squawk_nud_ValueChanged);
                         Squawk_nud.Value = (decimal)MainV2.comPort.MAV.cs.mode_A_squawk_code;
                         Squawk_nud.ValueChanged += new EventHandler(Squawk_nud_ValueChanged);
+
+                        NIC_tb.Text = MainV2.comPort.MAV.cs.nic.ToString();
+                        NACp_tb.Text = MainV2.comPort.MAV.cs.nacp.ToString();
 
                         XPDRConnect_btn.Text = "Refresh";
                     }
