@@ -152,6 +152,37 @@ namespace MissionPlanner.GCSViews
             ADSB_Out_Ident
         }
 
+        private Dictionary<int, string> NIC_table = new Dictionary<int, string>()
+        {
+            {0, "UNKNOWN" },
+            {1, "<20.0NM" },
+            {2, "<8.0NM" },
+            {3, "<4.0NM" },
+            {4, "<2.0NM" },
+            {5, "<1.0NM" },
+            {6, "<0.3NM" },
+            {7, "<0.2NM" },
+            {8, "<0.1NM" },
+            {9, "<75m" },
+            {10, "<25m" },
+            {11, "<7.5m" }
+        };
+        private Dictionary<int, string> NACp_table = new Dictionary<int, string>()
+        {
+            {0, "UNKNOWN" },
+            {1, "<10.0NM" },
+            {2, "<4.0NM" },
+            {3, "<2.0NM" },
+            {4, "<1.0NM" },
+            {5, "<0.5NM" },
+            {6, "<0.3NM" },
+            {7, "<0.1NM" },
+            {8, "<0.05NM" },
+            {9, "<30m" },
+            {10, "<10m" },
+            {11, "<3m" }
+        };
+
         public FlightData()
         {
             log.Info("Ctor Start");
@@ -5310,6 +5341,12 @@ namespace MissionPlanner.GCSViews
 
         private void FlightID_tb_TextChanged(object sender, EventArgs e)
         {
+            if (FlightID_tb.Text.Length > 8)
+            {
+                FlightID_tb.TextChanged -= new EventHandler(FlightID_tb_TextChanged);
+                FlightID_tb.Text = FlightID_tb.Text.Substring(0, 8);
+                FlightID_tb.TextChanged += new EventHandler(FlightID_tb_TextChanged);
+            }
             MainV2.comPort.uAvionixADSBControl(int.MaxValue,
                                                (ushort)Squawk_nud.Value,
                                                /*UAVIONIX_ADSB_OUT_CONTROL_STATE*/(byte)(
@@ -5502,10 +5539,10 @@ namespace MissionPlanner.GCSViews
                     Squawk_nud.ValueChanged += new EventHandler(Squawk_nud_ValueChanged);
                 }
 
-                NIC_tb.Text = MainV2.comPort.MAV.cs.nic.ToString();
-                NACp_tb.Text = MainV2.comPort.MAV.cs.nacp.ToString();
+                NIC_tb.Text = NIC_table[MainV2.comPort.MAV.cs.nic];
+                NACp_tb.Text = NACp_table[MainV2.comPort.MAV.cs.nacp];
 
-                XPDRConnect_btn.Text = "Refresh";
+                XPDRConnect_btn.Text = "Transponder Connected!";
             }
             else
             {

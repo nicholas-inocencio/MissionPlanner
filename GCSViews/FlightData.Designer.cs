@@ -81,6 +81,10 @@
             this.Galt = new AGaugeApp.AGauge();
             this.Gspeed = new AGaugeApp.AGauge();
             this.tabTransponder = new System.Windows.Forms.TabPage();
+            this.NACp_tb = new System.Windows.Forms.TextBox();
+            this.NIC_tb = new System.Windows.Forms.TextBox();
+            this.NACp_lbl = new System.Windows.Forms.Label();
+            this.NIC_lbl = new System.Windows.Forms.Label();
             this.fault_clb = new System.Windows.Forms.CheckedListBox();
             this.XPDRConnect_btn = new System.Windows.Forms.Button();
             this.Squawk_nud = new System.Windows.Forms.NumericUpDown();
@@ -203,10 +207,6 @@
             this.scriptChecker = new System.Windows.Forms.Timer(this.components);
             this.Messagetabtimer = new System.Windows.Forms.Timer(this.components);
             this.bindingSourceStatusTab = new System.Windows.Forms.BindingSource(this.components);
-            this.NIC_lbl = new System.Windows.Forms.Label();
-            this.NACp_lbl = new System.Windows.Forms.Label();
-            this.NIC_tb = new System.Windows.Forms.TextBox();
-            this.NACp_tb = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainH)).BeginInit();
             this.MainH.Panel1.SuspendLayout();
             this.MainH.Panel2.SuspendLayout();
@@ -1510,16 +1510,16 @@
             // tabTransponder
             // 
             resources.ApplyResources(this.tabTransponder, "tabTransponder");
+            this.tabTransponder.Controls.Add(this.Squawk_nud);
+            this.tabTransponder.Controls.Add(this.FlightID_tb);
             this.tabTransponder.Controls.Add(this.NACp_tb);
             this.tabTransponder.Controls.Add(this.NIC_tb);
             this.tabTransponder.Controls.Add(this.NACp_lbl);
             this.tabTransponder.Controls.Add(this.NIC_lbl);
             this.tabTransponder.Controls.Add(this.fault_clb);
             this.tabTransponder.Controls.Add(this.XPDRConnect_btn);
-            this.tabTransponder.Controls.Add(this.Squawk_nud);
             this.tabTransponder.Controls.Add(this.Squawk_label);
             this.tabTransponder.Controls.Add(this.FlightID_label);
-            this.tabTransponder.Controls.Add(this.FlightID_tb);
             this.tabTransponder.Controls.Add(this.IDENT_btn);
             this.tabTransponder.Controls.Add(this.ALT_btn);
             this.tabTransponder.Controls.Add(this.STBY_btn);
@@ -1527,6 +1527,28 @@
             this.tabTransponder.Controls.Add(this.Mode_clb);
             this.tabTransponder.Name = "tabTransponder";
             this.tabTransponder.UseVisualStyleBackColor = true;
+            // 
+            // NACp_tb
+            // 
+            resources.ApplyResources(this.NACp_tb, "NACp_tb");
+            this.NACp_tb.Name = "NACp_tb";
+            this.NACp_tb.ReadOnly = true;
+            // 
+            // NIC_tb
+            // 
+            resources.ApplyResources(this.NIC_tb, "NIC_tb");
+            this.NIC_tb.Name = "NIC_tb";
+            this.NIC_tb.ReadOnly = true;
+            // 
+            // NACp_lbl
+            // 
+            resources.ApplyResources(this.NACp_lbl, "NACp_lbl");
+            this.NACp_lbl.Name = "NACp_lbl";
+            // 
+            // NIC_lbl
+            // 
+            resources.ApplyResources(this.NIC_lbl, "NIC_lbl");
+            this.NIC_lbl.Name = "NIC_lbl";
             // 
             // fault_clb
             // 
@@ -2368,7 +2390,7 @@
             this.windDir1.BackColor = System.Drawing.Color.Transparent;
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Direction", this.bindingSource1, "wind_dir", true, System.Windows.Forms.DataSourceUpdateMode.Never));
             this.windDir1.DataBindings.Add(new System.Windows.Forms.Binding("Speed", this.bindingSource1, "wind_vel", true, System.Windows.Forms.DataSourceUpdateMode.Never));
-            this.windDir1.Direction = 180D;
+            this.windDir1.Direction = 360D;
             resources.ApplyResources(this.windDir1, "windDir1");
             this.windDir1.Name = "windDir1";
             this.windDir1.Speed = 0D;
@@ -2568,28 +2590,6 @@
             // bindingSourceStatusTab
             // 
             this.bindingSourceStatusTab.DataSource = typeof(MissionPlanner.CurrentState);
-            // 
-            // NIC_lbl
-            // 
-            resources.ApplyResources(this.NIC_lbl, "NIC_lbl");
-            this.NIC_lbl.Name = "NIC_lbl";
-            // 
-            // NACp_lbl
-            // 
-            resources.ApplyResources(this.NACp_lbl, "NACp_lbl");
-            this.NACp_lbl.Name = "NACp_lbl";
-            // 
-            // NIC_tb
-            // 
-            resources.ApplyResources(this.NIC_tb, "NIC_tb");
-            this.NIC_tb.Name = "NIC_tb";
-            this.NIC_tb.ReadOnly = true;
-            // 
-            // NACp_tb
-            // 
-            resources.ApplyResources(this.NACp_tb, "NACp_tb");
-            this.NACp_tb.Name = "NACp_tb";
-            this.NACp_tb.ReadOnly = true;
             // 
             // FlightData
             // 
