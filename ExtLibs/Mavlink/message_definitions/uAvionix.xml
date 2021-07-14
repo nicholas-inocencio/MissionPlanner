@@ -215,6 +215,7 @@
       <field type="uint8_t" name="NIC_NACp" enum="UAVIONIX_ADSB_OUT_STATUS_NIC_NACP">Integrity and Accuracy of traffic reported as a 4-bit value for each field (NACp 7:4, NIC 3:0) and encoded by Containment Radius (HPL) and Estimated Position Uncertainty (HFOM), respectively</field>
       <field type="uint8_t" name="boardTemp">Board temperature in C</field>
       <field type="uint8_t" name="fault" enum="UAVIONIX_ADSB_OUT_STATUS_FAULT" display="bitmask">ADS-B transponder fault flags</field>
+      <field type="char[8]" name="flight_id">Flight Identification: 8 ASCII characters, '0' through '9', 'A' through 'Z' or space. Spaces (0x20) used as a trailing pad character, or when call sign is unavailable.</field>
     </message>
   </messages>
 </mavlink>

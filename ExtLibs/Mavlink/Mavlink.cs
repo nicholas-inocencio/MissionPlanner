@@ -260,7 +260,7 @@ public partial class MAVLink
         new message_info(10005, "UAVIONIX_ADSB_OUT_CFG_FLIGHTID", 103, 9, 9, typeof( mavlink_uavionix_adsb_out_cfg_flightid_t )),
         new message_info(10006, "UAVIONIX_ADSB_GET", 193, 4, 4, typeof( mavlink_uavionix_adsb_get_t )),
         new message_info(10007, "UAVIONIX_ADSB_OUT_CONTROL", 71, 17, 17, typeof( mavlink_uavionix_adsb_out_control_t )),
-        new message_info(10008, "UAVIONIX_ADSB_OUT_STATUS", 53, 6, 6, typeof( mavlink_uavionix_adsb_out_status_t )),
+        new message_info(10008, "UAVIONIX_ADSB_OUT_STATUS", 240, 14, 14, typeof( mavlink_uavionix_adsb_out_status_t )),
         new message_info(11000, "DEVICE_OP_READ", 134, 51, 52, typeof( mavlink_device_op_read_t )),
         new message_info(11001, "DEVICE_OP_READ_REPLY", 15, 135, 136, typeof( mavlink_device_op_read_reply_t )),
         new message_info(11002, "DEVICE_OP_WRITE", 234, 179, 180, typeof( mavlink_device_op_write_t )),
@@ -18098,18 +18098,18 @@ public partial class MAVLink
     };
 
         /// extensions_start 0
-    [StructLayout(LayoutKind.Sequential,Pack=1,Size=6)]
+    [StructLayout(LayoutKind.Sequential,Pack=1,Size=14)]
     ///<summary> Status message with information from UCP Heartbeat and Status messages. </summary>
     public struct mavlink_uavionix_adsb_out_status_t
     {
-        public mavlink_uavionix_adsb_out_status_t(ushort squawk,/*UAVIONIX_ADSB_OUT_STATUS_STATE*/byte state,/*UAVIONIX_ADSB_OUT_STATUS_NIC_NACP*/byte NIC_NACp,byte boardTemp,/*UAVIONIX_ADSB_OUT_STATUS_FAULT*/byte fault) 
+        public mavlink_uavionix_adsb_out_status_t(ushort squawk,/*UAVIONIX_ADSB_OUT_STATUS_STATE*/byte state,/*UAVIONIX_ADSB_OUT_STATUS_NIC_NACP*/byte NIC_NACp,byte boardTemp,/*UAVIONIX_ADSB_OUT_STATUS_FAULT*/byte fault, byte[] flight_id) 
         {
               this.squawk = squawk;
               this.state = state;
               this.NIC_NACp = NIC_NACp;
               this.boardTemp = boardTemp;
               this.fault = fault;
-            
+              this.flight_id = flight_id;
         }
         /// <summary>Mode A code (typically 1200 [0x04B0] for VFR)   </summary>
         [Units("")]
@@ -18131,6 +18131,11 @@ public partial class MAVLink
         [Units("")]
         [Description("ADS-B transponder fault flags")]
         public  /*UAVIONIX_ADSB_OUT_STATUS_FAULT*/byte fault;
+            /// <summary>Flight Identification: 8 ASCII characters, '0' through '9', 'A' through 'Z' or space. Spaces (0x20) used as a trailing pad character, or when call sign is unavailable.   </summary>
+        [Units("")]
+        [Description("Flight Identification: 8 ASCII characters, '0' through '9', 'A' through 'Z' or space. Spaces (0x20) used as a trailing pad character, or when call sign is unavailable.")]
+        [MarshalAs(UnmanagedType.ByValArray,SizeConst=8)]
+		public byte[] flight_id;
 
     };
     

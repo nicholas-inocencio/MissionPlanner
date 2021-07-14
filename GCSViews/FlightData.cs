@@ -5436,5 +5436,63 @@ namespace MissionPlanner.GCSViews
             decimal value = control.Value + ((e.Delta > 0) ? control.Increment : -control.Increment);
             control.Value = Math.Max(control.Minimum, Math.Min(value, control.Maximum));
         }
+
+        private void XPDRConnect_btn_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                MainV2.comPort.doCommand(MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) MAVLink.MAVLINK_MSG_ID.UAVIONIX_ADSB_OUT_STATUS, (float) 1000000.0, 0, 0, 0, 0, 0);
+                var start = DateTime.Now;
+                while (!MainV2.comPort.MAV.cs.status_pending && (DateTime.Now - start).TotalSeconds < 3); // wait until we receive a status message
+                if (MainV2.comPort.MAV.cs.status_pending)
+                {
+                    MainV2.comPort.MAV.cs.status_pending = false;
+                    if (!MainV2.comPort.MAV.cs.status_unavail)
+                    {
+                        STBY_btn.Enabled = true;
+                        ON_btn.Enabled = true;
+                        ALT_btn.Enabled = true;
+                        IDENT_btn.Enabled = true;
+                        FlightID_tb.Enabled = true;
+                        Squawk_nud.Enabled = true;
+
+                        Mode_clb.SetItemChecked(0, MainV2.comPort.MAV.cs.mode_A_enabled);
+                        Mode_clb.SetItemChecked(1, MainV2.comPort.MAV.cs.mode_C_enabled);
+                        Mode_clb.SetItemChecked(2, MainV2.comPort.MAV.cs.mode_S_enabled);
+                        Mode_clb.SetItemChecked(3, MainV2.comPort.MAV.cs.es1090_tx_enabled);
+
+                        fault_clb.SetItemChecked(0, MainV2.comPort.MAV.cs.maint_req);
+                        fault_clb.SetItemChecked(1, MainV2.comPort.MAV.cs.gps_unavail);
+                        fault_clb.SetItemChecked(2, MainV2.comPort.MAV.cs.gps_no_fix);
+                        fault_clb.SetItemChecked(3, MainV2.comPort.MAV.cs.adsb_tx_sys_fail);
+                        fault_clb.SetItemChecked(4, MainV2.comPort.MAV.cs.airborne_status);
+
+                        FlightID_tb.Text = System.Text.Encoding.UTF8.GetString(MainV2.comPort.MAV.cs.flight_id);
+                        Squawk_nud.ValueChanged -= new EventHandler(Squawk_nud_ValueChanged);
+                        Squawk_nud.Value = (decimal)MainV2.comPort.MAV.cs.mode_A_squawk_code;
+                        Squawk_nud.ValueChanged += new EventHandler(Squawk_nud_ValueChanged);
+
+                        XPDRConnect_btn.Text = "Refresh";
+                    }
+                    else
+                    {
+                        STBY_btn.Enabled = false;
+                        ON_btn.Enabled = false;
+                        ALT_btn.Enabled = false;
+                        IDENT_btn.Enabled = false;
+                        FlightID_tb.Enabled = false;
+                        Squawk_nud.Enabled = false;
+
+                        XPDRConnect_btn.Text = "Connect to Transponder";
+                    }
+                }
+                else CustomMessageBox.Show("Timeout.");
+
+            }
+            catch (Exception ex)
+            {
+                CustomMessageBox.Show("Timeout.");
+            }
+        }
     }
 }
