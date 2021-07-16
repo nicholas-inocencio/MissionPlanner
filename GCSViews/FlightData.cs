@@ -5430,6 +5430,9 @@ namespace MissionPlanner.GCSViews
                                                0,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/
                                                Encoding.ASCII.GetBytes(FlightID_tb.Text),
                                                0);
+            STBY_btn.Font = new Font(STBY_btn.Font, FontStyle.Bold);
+            ON_btn.Font = new Font(ON_btn.Font, FontStyle.Regular);
+            ALT_btn.Font = new Font(ALT_btn.Font, FontStyle.Regular);
         }
 
         private void ON_btn_Click(object sender, EventArgs e)
@@ -5449,6 +5452,9 @@ namespace MissionPlanner.GCSViews
                                                0,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/
                                                Encoding.ASCII.GetBytes(FlightID_tb.Text),
                                                0);
+            STBY_btn.Font = new Font(STBY_btn.Font, FontStyle.Regular);
+            ON_btn.Font = new Font(ON_btn.Font, FontStyle.Bold);
+            ALT_btn.Font = new Font(ALT_btn.Font, FontStyle.Regular);
         }
 
         private void ALT_btn_Click(object sender, EventArgs e)
@@ -5468,6 +5474,9 @@ namespace MissionPlanner.GCSViews
                                                0,/*UAVIONIX_ADSB_EMERGENCY_STATUS*/
                                                Encoding.ASCII.GetBytes(FlightID_tb.Text),
                                                0);
+            STBY_btn.Font = new Font(STBY_btn.Font, FontStyle.Regular);
+            ON_btn.Font = new Font(ON_btn.Font, FontStyle.Regular);
+            ALT_btn.Font = new Font(ALT_btn.Font, FontStyle.Bold);
         }
 
 
@@ -5517,6 +5526,18 @@ namespace MissionPlanner.GCSViews
                     Mode_clb.SetItemChecked(1, MainV2.comPort.MAV.cs.mode_C_enabled);
                     Mode_clb.SetItemChecked(2, MainV2.comPort.MAV.cs.mode_S_enabled);
                     Mode_clb.SetItemChecked(3, MainV2.comPort.MAV.cs.es1090_tx_enabled);
+                    STBY_btn.Font = new Font(STBY_btn.Font, (!Mode_clb.GetItemChecked(0) && 
+                                                             !Mode_clb.GetItemChecked(1) && 
+                                                             !Mode_clb.GetItemChecked(2) && 
+                                                             !Mode_clb.GetItemChecked(3)) ? FontStyle.Bold : FontStyle.Regular);
+                    ON_btn.Font   = new Font(ON_btn.Font,   ( Mode_clb.GetItemChecked(0) &&
+                                                              Mode_clb.GetItemChecked(1) &&
+                                                             !Mode_clb.GetItemChecked(2) &&
+                                                              Mode_clb.GetItemChecked(3)) ? FontStyle.Bold : FontStyle.Regular);
+                    ALT_btn.Font  = new Font(ALT_btn.Font,  ( Mode_clb.GetItemChecked(0) &&
+                                                              Mode_clb.GetItemChecked(1) &&
+                                                              Mode_clb.GetItemChecked(2) &&
+                                                              Mode_clb.GetItemChecked(3)) ? FontStyle.Bold : FontStyle.Regular);
                 }
 
                 fault_clb.SetItemChecked(0, MainV2.comPort.MAV.cs.maint_req);
@@ -5541,6 +5562,8 @@ namespace MissionPlanner.GCSViews
 
                 NIC_tb.Text = NIC_table[MainV2.comPort.MAV.cs.nic];
                 NACp_tb.Text = NACp_table[MainV2.comPort.MAV.cs.nacp];
+
+                IDENT_btn.Font = new Font(IDENT_btn.Font, MainV2.comPort.MAV.cs.ident_active ? FontStyle.Bold : FontStyle.Regular);
 
                 XPDRConnect_btn.Text = "Transponder Connected!";
             }
