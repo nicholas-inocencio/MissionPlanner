@@ -1800,61 +1800,61 @@ namespace MissionPlanner
 
         [GroupText("Transponder Status")]
         [DisplayText("Transponder 1090ES Tx Enabled")]
-        public bool es1090_tx_enabled { get; private set; }
+        public bool xpdr_es1090_tx_enabled { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("Transponder Mode S Reply Enabled")]
-        public bool mode_S_enabled { get; private set; }
+        public bool xpdr_mode_S_enabled { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("Transponder Mode C Reply Enabled")]
-        public bool mode_C_enabled { get; private set; }
+        public bool xpdr_mode_C_enabled { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("Transponder Mode A Reply Enabled")]
-        public bool mode_A_enabled { get; private set; }
+        public bool xpdr_mode_A_enabled { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("Ident Active")]
-        public bool ident_active { get; private set; }
+        public bool xpdr_ident_active { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("X-bit Status")]
-        public bool x_bit_status { get; private set; }
+        public bool xpdr_x_bit_status { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("Interrogated since last")]
-        public bool interrogated_since_last { get; private set; }
+        public bool xpdr_interrogated_since_last { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("Airborne")]
-        public bool airborne_status { get; private set; }
+        public bool xpdr_airborne_status { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("Transponder Mode A squawk code")]
-        public ushort mode_A_squawk_code { get; private set; }
+        public ushort xpdr_mode_A_squawk_code { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("NIC")]
-        public byte nic { get; private set; }
+        public byte xpdr_nic { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("NACp")]
-        public byte nacp { get; private set; }
+        public byte xpdr_nacp { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("Board Temperature in C")]
-        public byte board_temperature { get; private set; }
+        public byte xpdr_board_temperature { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("Maintainence Required")]
-        public bool maint_req { get; private set; }
+        public bool xpdr_maint_req { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("ADSB Tx System Failure")]
-        public bool adsb_tx_sys_fail { get; private set; }
+        public bool xpdr_adsb_tx_sys_fail { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("GPS Unavailable")]
-        public bool gps_unavail { get; private set; }
+        public bool xpdr_gps_unavail { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("GPS No Fix")]
-        public bool gps_no_fix { get; private set; }
+        public bool xpdr_gps_no_fix { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("Ping200X No Status Message Recieved")]
-        public bool status_unavail { get; private set; }
+        public bool xpdr_status_unavail { get; private set; }
         [GroupText("Transponder Status")]
         [DisplayText("Status Update Pending")]
-        public bool status_pending { get; set; }
+        public bool xpdr_status_pending { get; set; }
         [GroupText("Transponder Status")]
         [DisplayText("Callsign/Flight ID")]
-        public byte[] flight_id { get; set; }
+        public byte[] xpdr_flight_id { get; set; }
 
 
         public object Clone()
@@ -3374,29 +3374,29 @@ namespace MissionPlanner
                         {
                             var status = mavLinkMessage.ToStructure<MAVLink.mavlink_uavionix_adsb_out_status_t>();
 
-                            es1090_tx_enabled = (status.state & 128) != 0;
-                            mode_S_enabled = (status.state & 64) != 0 ;
-                            mode_C_enabled = (status.state & 32) != 0;
-                            mode_A_enabled = (status.state & 16) != 0;
-                            ident_active = (status.state & 8) != 0;
-                            x_bit_status = (status.state & 4) != 0;
-                            interrogated_since_last = (status.state & 2) != 0;
-                            airborne_status = (status.state & 1) != 0;
+                            xpdr_es1090_tx_enabled = (status.state & 128) != 0;
+                            xpdr_mode_S_enabled = (status.state & 64) != 0 ;
+                            xpdr_mode_C_enabled = (status.state & 32) != 0;
+                            xpdr_mode_A_enabled = (status.state & 16) != 0;
+                            xpdr_ident_active = (status.state & 8) != 0;
+                            xpdr_x_bit_status = (status.state & 4) != 0;
+                            xpdr_interrogated_since_last = (status.state & 2) != 0;
+                            xpdr_airborne_status = (status.state & 1) != 0;
 
-                            mode_A_squawk_code = status.squawk;
-                            nic = (byte)(status.NIC_NACp & 0x0F);
-                            nacp = (byte)((status.NIC_NACp >> 4) & 0x0F);
-                            board_temperature = status.boardTemp;
+                            xpdr_mode_A_squawk_code = status.squawk;
+                            xpdr_nic = (byte)(status.NIC_NACp & 0x0F);
+                            xpdr_nacp = (byte)((status.NIC_NACp >> 4) & 0x0F);
+                            xpdr_board_temperature = status.boardTemp;
 
-                            maint_req = (status.fault & 128) != 0;
-                            adsb_tx_sys_fail = (status.fault & 64) != 0;
-                            gps_unavail = (status.fault & 32) != 0;
-                            gps_no_fix = (status.fault & 16) != 0;
-                            status_unavail = (status.fault & 8) != 0;
+                            xpdr_maint_req = (status.fault & 128) != 0;
+                            xpdr_adsb_tx_sys_fail = (status.fault & 64) != 0;
+                            xpdr_gps_unavail = (status.fault & 32) != 0;
+                            xpdr_gps_no_fix = (status.fault & 16) != 0;
+                            xpdr_status_unavail = (status.fault & 8) != 0;
 
-                            flight_id = status.flight_id;
+                            xpdr_flight_id = status.flight_id;
 
-                            status_pending = true;
+                            xpdr_status_pending = true;
                         }
                         break;
                 }
