@@ -3638,7 +3638,7 @@ namespace MissionPlanner.GCSViews
                     Console.WriteLine("FD Main loop exception " + ex);
                 }
 
-                if (MainV2.comPort.MAV.cs.status_pending)
+                if (MainV2.comPort.MAV.cs.xpdr_status_pending)
                 {
                     BeginInvoke((Action) updateTransponder);
                 }
@@ -5494,8 +5494,8 @@ namespace MissionPlanner.GCSViews
             {
                 MainV2.comPort.doCommand(MAVLink.MAV_CMD.SET_MESSAGE_INTERVAL, (float) MAVLink.MAVLINK_MSG_ID.UAVIONIX_ADSB_OUT_STATUS, (float) 1000000.0, 0, 0, 0, 0, 0);
                 var start = DateTime.Now;
-                while (!MainV2.comPort.MAV.cs.status_pending && (DateTime.Now - start).TotalSeconds < 3); // wait until we receive a status message
-                if (MainV2.comPort.MAV.cs.status_pending)
+                while (!MainV2.comPort.MAV.cs.xpdr_status_pending && (DateTime.Now - start).TotalSeconds < 3); // wait until we receive a status message
+                if (MainV2.comPort.MAV.cs.xpdr_status_pending)
                 {
                     updateTransponder();
                 }
@@ -5510,8 +5510,8 @@ namespace MissionPlanner.GCSViews
 
         private void updateTransponder()
         {
-            MainV2.comPort.MAV.cs.status_pending = false;
-            if (!MainV2.comPort.MAV.cs.status_unavail)
+            MainV2.comPort.MAV.cs.xpdr_status_pending = false;
+            if (!MainV2.comPort.MAV.cs.xpdr_status_unavail)
             {
                 STBY_btn.Enabled = true;
                 ON_btn.Enabled = true;
@@ -5522,10 +5522,10 @@ namespace MissionPlanner.GCSViews
 
                 if (!(STBY_btn.Focused || ON_btn.Focused || ALT_btn.Focused))
                 {
-                    Mode_clb.SetItemChecked(0, MainV2.comPort.MAV.cs.mode_A_enabled);
-                    Mode_clb.SetItemChecked(1, MainV2.comPort.MAV.cs.mode_C_enabled);
-                    Mode_clb.SetItemChecked(2, MainV2.comPort.MAV.cs.mode_S_enabled);
-                    Mode_clb.SetItemChecked(3, MainV2.comPort.MAV.cs.es1090_tx_enabled);
+                    Mode_clb.SetItemChecked(0, MainV2.comPort.MAV.cs.xpdr_mode_A_enabled);
+                    Mode_clb.SetItemChecked(1, MainV2.comPort.MAV.cs.xpdr_mode_C_enabled);
+                    Mode_clb.SetItemChecked(2, MainV2.comPort.MAV.cs.xpdr_mode_S_enabled);
+                    Mode_clb.SetItemChecked(3, MainV2.comPort.MAV.cs.xpdr_es1090_tx_enabled);
                     STBY_btn.Font = new Font(STBY_btn.Font, (!Mode_clb.GetItemChecked(0) && 
                                                              !Mode_clb.GetItemChecked(1) && 
                                                              !Mode_clb.GetItemChecked(2) && 
@@ -5540,30 +5540,30 @@ namespace MissionPlanner.GCSViews
                                                               Mode_clb.GetItemChecked(3)) ? FontStyle.Bold : FontStyle.Regular);
                 }
 
-                fault_clb.SetItemChecked(0, MainV2.comPort.MAV.cs.maint_req);
-                fault_clb.SetItemChecked(1, MainV2.comPort.MAV.cs.gps_unavail);
-                fault_clb.SetItemChecked(2, MainV2.comPort.MAV.cs.gps_no_fix);
-                fault_clb.SetItemChecked(3, MainV2.comPort.MAV.cs.adsb_tx_sys_fail);
-                fault_clb.SetItemChecked(4, MainV2.comPort.MAV.cs.airborne_status);
+                fault_clb.SetItemChecked(0, MainV2.comPort.MAV.cs.xpdr_maint_req);
+                fault_clb.SetItemChecked(1, MainV2.comPort.MAV.cs.xpdr_gps_unavail);
+                fault_clb.SetItemChecked(2, MainV2.comPort.MAV.cs.xpdr_gps_no_fix);
+                fault_clb.SetItemChecked(3, MainV2.comPort.MAV.cs.xpdr_adsb_tx_sys_fail);
+                fault_clb.SetItemChecked(4, MainV2.comPort.MAV.cs.xpdr_airborne_status);
 
                 if (!FlightID_tb.Focused)
                 {
                     FlightID_tb.TextChanged -= new EventHandler(FlightID_tb_TextChanged);
-                    FlightID_tb.Text = System.Text.Encoding.UTF8.GetString(MainV2.comPort.MAV.cs.flight_id);
+                    FlightID_tb.Text = System.Text.Encoding.UTF8.GetString(MainV2.comPort.MAV.cs.xpdr_flight_id);
                     FlightID_tb.TextChanged += new EventHandler(FlightID_tb_TextChanged);
                 }
 
                 if (!Squawk_nud.Focused)
                 {
                     Squawk_nud.ValueChanged -= new EventHandler(Squawk_nud_ValueChanged);
-                    Squawk_nud.Value = (decimal)MainV2.comPort.MAV.cs.mode_A_squawk_code;
+                    Squawk_nud.Value = (decimal)MainV2.comPort.MAV.cs.xpdr_mode_A_squawk_code;
                     Squawk_nud.ValueChanged += new EventHandler(Squawk_nud_ValueChanged);
                 }
 
-                NIC_tb.Text = NIC_table[MainV2.comPort.MAV.cs.nic];
-                NACp_tb.Text = NACp_table[MainV2.comPort.MAV.cs.nacp];
+                NIC_tb.Text = NIC_table[MainV2.comPort.MAV.cs.xpdr_nic];
+                NACp_tb.Text = NACp_table[MainV2.comPort.MAV.cs.xpdr_nacp];
 
-                IDENT_btn.Font = new Font(IDENT_btn.Font, MainV2.comPort.MAV.cs.ident_active ? FontStyle.Bold : FontStyle.Regular);
+                IDENT_btn.Font = new Font(IDENT_btn.Font, MainV2.comPort.MAV.cs.xpdr_ident_active ? FontStyle.Bold : FontStyle.Regular);
 
                 XPDRConnect_btn.Text = "Transponder Connected!";
             }
