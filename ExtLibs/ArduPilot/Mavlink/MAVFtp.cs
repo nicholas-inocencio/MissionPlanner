@@ -665,7 +665,7 @@ namespace MissionPlanner.ArduPilot.Mavlink
 
         public MemoryStream kCmdBurstReadFile(string file, int size, CancellationTokenSource cancel, byte readsize = 0)
         {
-            RetryTimeout timeout = new RetryTimeout();
+            RetryTimeout timeout = new RetryTimeout(30, 5000);
             fileTransferProtocol.target_system = _sysid;
             fileTransferProtocol.target_component = _compid;
             fileTransferProtocol.target_network = 0;
@@ -781,6 +781,8 @@ namespace MissionPlanner.ArduPilot.Mavlink
                     return;
                 }
                 //log.Debug("req " + payload.ToJSON());
+
+                fileTransferProtocol.payload[4] = readsize;
                 _mavint.sendPacket(fileTransferProtocol, _sysid, _compid);
             };
             timeout.DoWork();

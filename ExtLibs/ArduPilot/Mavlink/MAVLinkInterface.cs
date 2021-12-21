@@ -1614,6 +1614,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
             return getParamListMavftpAsync(sysid, compid).AwaitSync();
         }
 
+        byte read_size = 239;
         public async Task<MAVLinkParamList> getParamListMavftpAsync(byte sysid, byte compid)
         {
             var sub2 = SubscribeToPacketType(MAVLINK_MSG_ID.STATUSTEXT, buffer =>
@@ -1673,7 +1674,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                                 frmProgressReporter.UpdateProgressAndStatus(i, $"Getting Param MAVFTP {sysid}-{compid}");
                         };
                         return ftp.GetFile(
-                            "@PARAM/param.pck", cancel, false, 110);
+                            "@PARAM/param.pck", cancel, true, read_size);
                     });
                     while (!paramfileTask.IsCompleted)
                     {
