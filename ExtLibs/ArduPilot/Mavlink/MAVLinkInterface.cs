@@ -1643,10 +1643,10 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
             try
             {
-                if ((MAV.cs.capabilities & (int) MAV_PROTOCOL_CAPABILITY.FTP) > 0)
+                if (false && (MAV.cs.capabilities & (int) MAV_PROTOCOL_CAPABILITY.FTP) > 0)
                 {
                     if (frmProgressReporter != null)
-                        frmProgressReporter.UpdateProgressAndStatus(-1, "Checking for Param MAVFTP");
+                        frmProgressReporter.UpdateProgressAndStatus(-1, "Checking for burst Param MAVFTP");
                     var cancel = new CancellationTokenSource();
                     var paramfileTask = Task.Run<MemoryStream>(() =>
                     {
@@ -1737,7 +1737,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 target_component = compid
             };
 
-            generatePacket((byte) MAVLINK_MSG_ID.PARAM_REQUEST_LIST, req);
+            //generatePacket((byte) MAVLINK_MSG_ID.PARAM_REQUEST_LIST, req);
 
             DateTime start = DateTime.Now;
             DateTime restart = DateTime.Now;
@@ -1886,7 +1886,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
                 if (!(start.AddMilliseconds(4000) > DateTime.Now) && !logreadmode)
                 {
                     // if we have less than 75% of the total use full list pull
-                    if (retry < 2 && indexsreceived.Count < ((param_total / 4) * 3))
+                    if (false && retry < 2 && indexsreceived.Count < ((param_total / 4) * 3))
                     {
                         retry++;
                         log.InfoFormat("Get Param whole list retry {0} got {1} 75%={2} count {3}", retry,
@@ -1934,7 +1934,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                                     generatePacket((byte) MAVLINK_MSG_ID.PARAM_REQUEST_READ, req2);
 
-                                    if (queued >= 10)
+                                    if (queued >= 100)
                                     {
                                         break;
                                     }
