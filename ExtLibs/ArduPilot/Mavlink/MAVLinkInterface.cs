@@ -1934,7 +1934,7 @@ Mission Planner waits for 2 valid heartbeat packets before connecting");
 
                                     generatePacket((byte) MAVLINK_MSG_ID.PARAM_REQUEST_READ, req2);
 
-                                    if (queued >= 100)
+                                    if (queued >= 1000)
                                     {
                                         break;
                                     }
